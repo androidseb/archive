@@ -455,6 +455,28 @@ void main() {
     }
   });
 
+  test(
+    'decode/encode zip64: produce a 5GB archive with many small files',
+    () => generateAndTestZipFile(
+      outputZipFileRelativePath: 'out/test_5GB.zip',
+      zipEntryRawLength: 1000000, // ~1MB
+      zipEntriesCount: 5400, // 5400 x 1MB = ~5.4GB
+      expectedZipFileMinimumSize: 5 * 1024 * 1024 * 1024, // 5GB
+    ),
+  );
+
+  //TODO
+//  test(
+//    'decode/encode zip64: produce a 10GB archive with very large files (5GB)',
+//    () => generateAndTestZipFile(
+//      outputZipFileRelativePath: 'out/test_10GB.zip',
+//      bufferTmpFileRelativePath: 'out/test_10GB.zip.entry.tmp',
+//      zipEntryRawLength: 5 * 1024 * 1024 * 1024, // 5GB
+//      zipEntriesCount: 2, // 2 x 5GB = 10GB
+//      expectedZipFileMinimumSize: 10 * 1024 * 1024 * 1024, // 10GB
+//    ),
+//  );
+
   for (final Z in zipTests) {
     final z = Z as Map<String, dynamic>;
     test('unzip ${z['Name']}', () {
